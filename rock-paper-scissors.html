@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="./styles/rock-paper-scissors.css">
+</head>
+
+<body>
+  <p class="title">Rock Paper Scissors</p>
+  
+  <button class="move-button" onclick="
+    handlePlayer(0);
+  ">
+    <img class="move-icon" src="images/rock-emoji.png">
+  </button>
+
+  <button class="move-button" onclick="
+    handlePlayer(1);
+  ">
+    <img class="move-icon" src="images/paper-emoji.png">
+  </button>
+
+  <button class="move-button" onclick="
+    handlePlayer(2);
+  ">
+    <img class="move-icon" src="images/scissors-emoji.png">
+  </button>
+
+  <p class="js-round-result result"></p>
+  <p class="js-round-details"></p>
+  <p class="js-score score"></p>
+  
+  <button class="reset-score-button" onclick="
+    scoreBoard.wins = 0;
+    scoreBoard.losses = 0;
+    scoreBoard.ties = 0;
+
+    document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
+    document.querySelector('.js-round-result')
+      .innerHTML = '';
+    document.querySelector('.js-round-details')
+      .innerHTML = '';
+    localStorage.setItem('score', JSON.stringify(scoreBoard));
+  ">Reset Score</button>
+  
+  <script>
+    const scoreBoard = JSON.parse(localStorage.getItem('score')) || {
+      wins: 0,
+      losses: 0,
+      ties: 0
+    }
+    const moveArray = ['rock', 'paper', 'scissors'];  
+
+    function handlePlayer(move) {
+      const computerMove = pickComputerMove();
+      const result = playRound(move, computerMove.index);
+      updateScore(result, scoreBoard);
+      document.querySelector('.js-round-details')
+        .innerHTML = `
+          You
+          <img class="move-icon" src="images/${moveArray[move]}-emoji.png">
+          <img class="move-icon" src="images/${computerMove.name}-emoji.png">
+          Computer`;
+    }
+
+    function updateScore(result, scoreBoard) {
+      switch (result) {
+        case 'Tie.':
+          scoreBoard.ties++;
+          document.querySelector('.js-round-result')
+            .innerHTML = result;
+          break;
+        case 'You lose.':
+          scoreBoard.losses++;
+          document.querySelector('.js-round-result')
+            .innerHTML = result;
+          break;
+        case 'You win.':
+          scoreBoard.wins++;
+          document.querySelector('.js-round-result')
+            .innerHTML = result;
+          break;
+      }
+      localStorage.setItem('score', JSON.stringify(scoreBoard));
+      document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
+    }
+    
+    function pickComputerMove() {
+      const moves = [
+        {index: 0, name: 'rock'},
+        {index: 1, name: 'paper'},
+        {index: 2, name: 'scissors'}
+      ];
+      return moves[Math.floor(Math.random() * 3)];  
+    }
+    
+    function playRound(user, pc) {
+      const gameTable = [                  
+        ['Tie.', 'You lose.', 'You win.'],
+        ['You win.', 'Tie.', 'You lose.'],
+        ['You lose.', 'You win.', 'Tie.']
+      ];
+      return gameTable[user][pc];
+    } 
+    document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
+  </script>
+</body>
+</html>
