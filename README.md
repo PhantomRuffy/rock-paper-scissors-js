@@ -20,4 +20,4 @@ A browser-based Rock Paper Scissors game built with vanilla HTML, CSS, and JavaS
 
 ## How to run
 
-Just open `index.html` in a browser. No dependencies, no build step.
+Just open `rock-paper-scissors.html` in a browser. No dependencies, no build step.

@@ -8,7 +8,6 @@ const scoreBoard = JSON.parse(localStorage.getItem('score')) || {
 }
 document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
 
-
 function handlePlayer(move) {
   const computerMove = pickComputerMove();
   const result = playRound(move, computerMove.index);
@@ -76,3 +75,16 @@ function autoPlay() {
     autoPlayButton.style.backgroundColor = "green";
   }
 }
+
+const moveButtons = [
+  { selector: '.js-rock-button', move: 0 },
+  { selector: '.js-paper-button', move: 1 },
+  { selector: '.js-scissors-button', move: 2 }
+];
+
+moveButtons.forEach(({ selector, move }) => {
+  document.querySelector(selector)
+    .addEventListener('click', () => {
+      handlePlayer(move);
+    });
+});
