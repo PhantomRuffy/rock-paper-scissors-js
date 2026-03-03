@@ -1,9 +1,13 @@
+let isAutoPlaying = false;
+let intervalID;
+const moveArray = ['rock', 'paper', 'scissors'];
 const scoreBoard = JSON.parse(localStorage.getItem('score')) || {
   wins: 0,
   losses: 0,
   ties: 0
 }
-const moveArray = ['rock', 'paper', 'scissors'];
+document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
+
 
 function handlePlayer(move) {
   const computerMove = pickComputerMove();
@@ -56,4 +60,19 @@ function playRound(user, pc) {
   ];
   return gameTable[user][pc];
 }
-document.querySelector('.js-score').innerHTML = `Wins: ${scoreBoard.wins}, Losses: ${scoreBoard.losses}, Ties: ${scoreBoard.ties}`;
+
+function autoPlay() {
+
+  const autoPlayButton = document.querySelector('.js-auto-play-button');
+  if (!isAutoPlaying) {
+    intervalID = setInterval(function() {
+      handlePlayer(pickComputerMove().index);
+    }, 1000);
+    isAutoPlaying = true;
+    autoPlayButton.style.backgroundColor = "darkred";
+  } else {
+    clearInterval(intervalID);
+    isAutoPlaying = false;
+    autoPlayButton.style.backgroundColor = "green";
+  }
+}
