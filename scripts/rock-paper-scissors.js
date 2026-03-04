@@ -88,3 +88,17 @@ moveButtons.forEach(({ selector, move }) => {
       handlePlayer(move);
     });
 });
+
+document.body.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case 'r':
+      handlePlayer(0);
+      break;
+    case 'p':
+      handlePlayer(1);
+      break;
+    case 's':
+      handlePlayer(2);
+      break;
+  }
+})
