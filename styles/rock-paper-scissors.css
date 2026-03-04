@@ -52,3 +52,14 @@ button:active {
 .auto-play-button {
   background-color: green;
 }
+
+.rate-input {
+  background-color: white;
+  color: black;
+  border: none;
+  width: 50px;
+  height: 33px;
+  padding: 0;
+  border-radius: 10px;
+  text-align: center;
+}

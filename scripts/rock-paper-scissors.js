@@ -61,18 +61,21 @@ function playRound(user, pc) {
 }
 
 function autoPlay() {
-
-  const autoPlayButton = document.querySelector('.js-auto-play-button');
-  if (!isAutoPlaying) {
-    intervalID = setInterval(function() {
-      handlePlayer(pickComputerMove().index);
-    }, 1000);
-    isAutoPlaying = true;
-    autoPlayButton.style.backgroundColor = "darkred";
-  } else {
-    clearInterval(intervalID);
-    isAutoPlaying = false;
-    autoPlayButton.style.backgroundColor = "green";
+  rate = Math.round(60000 / Number(document.querySelector(".js-rate-input").value));
+  if (rate > 0 && rate != Infinity) {
+    console.log(rate);
+    const autoPlayButton = document.querySelector(".js-auto-play-button");
+    if (!isAutoPlaying) {
+      intervalID = setInterval(function () {
+        handlePlayer(pickComputerMove().index);
+      }, rate);
+      isAutoPlaying = true;
+      autoPlayButton.style.backgroundColor = "darkred";
+    } else {
+      clearInterval(intervalID);
+      isAutoPlaying = false;
+      autoPlayButton.style.backgroundColor = "green";
+    }
   }
 }
 
@@ -102,3 +105,6 @@ document.body.addEventListener('keydown', (event) => {
       break;
   }
 })
+
+document.querySelector('.js-auto-play-button')
+  .addEventListener('click', () => autoPlay());
